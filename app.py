@@ -77,7 +77,7 @@ class Wait(Resource):
                 em=email.replace("__","@").replace("_",".")
                 print(em)
                 msg=Message("Subscription", sender="o.favour@litewebhq.com", recipients=[em])
-                msg.body="Hello "+f"{name}"+",\n\nThank you for subscribing to our newsletter. We will keep you updated on our latest products and services.\n\nRegards,\n\nThe Liteweb Team"
+                msg.body="Hello "+f"{name}"+",\n\nThank you for subscribing to our waitlist. We will keep you updated on our latest products and services.\n\nRegards,\n\nThe Liteweb Team"
                 mail.send(msg)
                 return {"message": "Suscribed!"}, 200
         except Exception as e:
