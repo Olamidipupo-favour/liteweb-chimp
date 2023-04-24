@@ -1,0 +1,8 @@
+pyrebase4
+flask
+flask-restful
+flask-cors
+gunicorn
+Flask-Mail
+Flask-Jwt-Extended
+xlsxwriter
