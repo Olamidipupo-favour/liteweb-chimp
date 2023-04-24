@@ -4,6 +4,7 @@ from flask_jwt_extended import JWTManager, jwt_required, create_access_token, ge
 from flask_cors import CORS
 from pyrebase import pyrebase
 import datetime
+import os
 from flask_mail import Mail, Message
 from werkzeug.security import generate_password_hash, check_password_hash
 import xlsxwriter
@@ -24,8 +25,8 @@ config = {
 db = pyrebase.initialize_app(config).database()
 app.config['MAIL_SERVER']='smtp.titan.email'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'o.favour@litewebhq.com'
-app.config['MAIL_PASSWORD'] = 'Dipodola123!'
+app.config['MAIL_USERNAME'] = os.env.get('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.env.get('MAIL_PASSWORD')
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 mail = Mail(app)
