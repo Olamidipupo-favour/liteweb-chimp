@@ -25,9 +25,8 @@ config = {
 db = pyrebase.initialize_app(config).database()
 app.config['MAIL_SERVER']='smtp.titan.email'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = os.env.get('MAIL_USERNAME')
-app.config['MAIL_PASSWORD'] = os.env.get('MAIL_PASSWORD')
-#dref
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 mail = Mail(app)
