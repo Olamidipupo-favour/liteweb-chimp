@@ -62,7 +62,7 @@ class Register(Resource):
             return {"error": "Invalid username or password"}, 401
 class Wait(Resource):
     @jwt_required()
-    def get(self):
+    def post(self):
         current_user = get_jwt_identity()
         print(current_user)
         data=request.get_json()
