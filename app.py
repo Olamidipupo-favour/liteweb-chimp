@@ -25,6 +25,7 @@ config = {
 db = pyrebase.initialize_app(config).database()
 app.config['MAIL_SERVER']='smtp.titan.email'
 app.config['MAIL_PORT'] = 465
+print(os.environ.get('MAIL_USERNAME'))
 app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
 app.config['MAIL_USE_TLS'] = False
@@ -77,7 +78,22 @@ class Wait(Resource):
                 em=email.replace("__","@").replace("_",".")
                 print(em)
                 msg=Message("Subscription", sender="o.favour@litewebhq.com", recipients=[em])
-                msg.body="Hello "+f"{name}"+",\n\nThank you for subscribing to our waitlist. We will keep you updated on our latest products and services.\n\nRegards,\n\nThe Liteweb Team"
+                #msg.body="Hello "+f"{name}"+",\n\nThank you for subscribing to our waitlist. We will keep you updated on our latest products and services.\n\nRegards,\n\nThe Liteweb Team"
+                msg.body=   """
+Hey there Chief 👋,
+
+Welcome to the Liteweb Engine waitlist! 🎉 We're thrilled to have you on board and can't wait to show you what we've been working on! 🔥
+
+We're on a mission to make website building super easy for everyone, and we're excited to have you be a part of it! 😎
+
+Don't forget to spread the word and invite your friends to join the waitlist too! The more the merrier! 🤩
+
+We'll be sure to keep you updated and let you know the moment we launch our platform! 🚀
+
+Cheers! 🥳
+The Liteweb Team
+
+"""
                 mail.send(msg)
                 return {"message": "Suscribed!"}, 200
         except Exception as e:
