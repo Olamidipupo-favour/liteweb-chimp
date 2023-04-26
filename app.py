@@ -23,7 +23,7 @@ config = {
   "databaseURL": "https://liteweb-chimp-default-rtdb.firebaseio.com"
 }
 db = pyrebase.initialize_app(config).database()
-app.config['MAIL_SERVER']='smtp.titan.email'
+app.config['MAIL_SERVER']='mail.litewebhq.com'
 app.config['MAIL_PORT'] = 465
 print(os.environ.get('MAIL_USERNAME'))
 app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
