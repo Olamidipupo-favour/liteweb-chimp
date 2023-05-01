@@ -8,3 +8,4 @@ Flask-Jwt-Extended
 xlsxwriter
 celery
 redis
+requests
