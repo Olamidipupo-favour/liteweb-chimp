@@ -7,3 +7,4 @@ Flask-Mail
 Flask-Jwt-Extended
 xlsxwriter
 celery
+redis
