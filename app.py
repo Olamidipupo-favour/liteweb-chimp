@@ -8,11 +8,7 @@ import os
 from flask_mail import Mail, Message
 from werkzeug.security import generate_password_hash, check_password_hash
 import xlsxwriter
-from celery import Celery
-os.environ.setdefault('FORKED_BY_MULTIPROCESSING', '1')
 app=Flask(__name__)
-celery = Celery(app.name, broker='redis://red-ch7pselgk4q7lmtgcmkg:6379/0')
-#redis://red-ch7pselgk4q7lmtgcmkg:6379
 CORS(app,resources={r"/api/v1/*": {"origins": "*"}})
 app.config["JWT_SECRET_KEY"] = "vdA2CoHSyLCEiDzObYrnxQigdQuImERIh2T9DuTteBIJDXZS1FXcCuPdzCtNIb0d5r18LpII4a5iR4oBIK5Gn4wARH3X93QhSCiV"
 jwt = JWTManager(app)
@@ -30,8 +26,8 @@ db = pyrebase.initialize_app(config).database()
 app.config['MAIL_SERVER']='mail.litewebhq.com'
 app.config['MAIL_PORT'] = 465
 print(os.environ.get('MAIL_USERNAME'))
-#os.environ['MAIL_USERNAME']='o.favour@litewebhq.com'
-#os.environ['MAIL_PASSWORD']='Dipodola123!'
+os.environ['MAIL_USERNAME']='o.favour@litewebhq.com'
+os.environ['MAIL_PASSWORD']='Dipodola123!'
 app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
 app.config['MAIL_USE_TLS'] = False
@@ -83,16 +79,9 @@ class Wait(Resource):
                 #send a subscription email.
                 em=email.replace("__","@").replace("_",".")
                 print(em)
-                send_async_email.delay(em)
-                return {"message": "Suscribed!"}, 200
-        except Exception as e:
-            print(e)    
-            return {"error": "An error occured!"}, 401
-        return {"message":"User suscribed  successfully!"}, 200
-@celery.task
-def send_async_email(email):
-    msg=Message("Subscription", sender="o.favour@litewebhq.com", recipients=[email])
-    msg.body = """
+                msg=Message("Subscription", sender="o.favour@litewebhq.com", recipients=[em])
+                #msg.body="Hello "+f"{name}"+",\n\nThank you for subscribing to our waitlist. We will keep you updated on our latest products and services.\n\nRegards,\n\nThe Liteweb Team"
+                msg.body=   """
 Hey there Chief 👋,
 
 Welcome to the Liteweb Engine waitlist! 🎉 We're thrilled to have you on board and can't wait to show you what we've been working on! 🔥
@@ -107,8 +96,12 @@ Cheers! 🥳
 The Liteweb Team
 
 """
-    with app.app_context():
-        mail.send(msg)
+                mail.send(msg)
+                return {"message": "Suscribed!"}, 200
+        except Exception as e:
+            print(e)    
+            return {"error": "An error occured!"}, 401
+        return {"message":"User suscribed  successfully!"}, 200
 class getSuscribers(Resource):
     @jwt_required()
     def get(self):
