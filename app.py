@@ -26,8 +26,6 @@ db = pyrebase.initialize_app(config).database()
 app.config['MAIL_SERVER']='mail.litewebhq.com'
 app.config['MAIL_PORT'] = 465
 print(os.environ.get('MAIL_USERNAME'))
-os.environ['MAIL_USERNAME']='o.favour@litewebhq.com'
-os.environ['MAIL_PASSWORD']='Dipodola123!'
 app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
 app.config['MAIL_USE_TLS'] = False
