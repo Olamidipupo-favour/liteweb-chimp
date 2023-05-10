@@ -118,9 +118,15 @@ class getSuscribers(Resource):
             col=0
         workbook.close()
         return send_file('suscribers.xlsx', as_attachment=True)
+class getSuscribersData(Resource):
+    @jwt_required()
+    def get(self):
+        suscribers=db.child("suscribers").get().val()
+        return suscribers
 api.add_resource(Login, '/api/v1/login')
 api.add_resource(Register, '/api/v1/register')
 api.add_resource(Wait, '/api/v1/wait')
 api.add_resource(getSuscribers, '/api/v1/getsuscribers')
+api.add_resource(getSuscribersData,'/api/v1/getsuscribersdata')
 if __name__ == '__main__':
     app.run(debug=True)
