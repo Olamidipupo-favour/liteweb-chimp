@@ -69,15 +69,16 @@ class Wait(Resource):
         data=request.get_json()
         email=data['email'].replace(".", "_").replace("@", "__")
         name=data.get('name','')
+        whatsapp_number=data.get("whatsapp",'')
         try:
             if(db.child("suscribers").child(email).get().val()!=None):
                 return {"error": "Email already exists"}, 401
             else:
-                db.child("suscribers").child(email).set({"date":datetime.datetime.now().isoformat(),"name":name})
+                db.child("suscribers").child(email).set({"date":datetime.datetime.now().isoformat(),"name":name,"whatsapp number":whatsapp_number})
                 #send a subscription email.
                 em=email.replace("__","@").replace("_",".")
                 print(em)
-                msg=Message("Subscription", sender="o.favour@litewebhq.com", recipients=[em])
+                msg=Message("Subscription", sender="o.favour@codecubehq.com", recipients=[em])
                 #msg.body="Hello "+f"{name}"+",\n\nThank you for subscribing to our waitlist. We will keep you updated on our latest products and services.\n\nRegards,\n\nThe Liteweb Team"
                 msg.body=   """
 Hey there Chief 👋,
@@ -114,6 +115,7 @@ class getSuscribers(Resource):
             worksheet.write(row, col, i.replace("__","@").replace("_","."))
             worksheet.write(row, col+1, suscribers[i]['date'])
             worksheet.write(row, col+2, suscribers[i].get('name'))
+            worksheet.write(row, col+2, suscribers[i].get('whatsapp number'))
             row+=1
             col=0
         workbook.close()
